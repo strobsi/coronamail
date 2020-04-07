@@ -23,7 +23,7 @@ services:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
       - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
     volumes:
-      - "./redis_data:/bitnami/redis/data"
+      - "../../mail2myself/redis_data:/bitnami/redis/data"
     networks:
       - db
 networks:
