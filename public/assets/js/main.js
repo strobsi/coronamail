@@ -150,14 +150,14 @@
       // Define what happens on successful data submission
       XHR.addEventListener("load", function (event) {
         alert(
-          "Vielen Dank für Ihre Nachricht. Wir melden uns so schnell wie möglich."
+          "Geschafft. Deine Nachricht ist gespeichert und wird dir zugesendet. Pass auf dich auf und bleib gesund!"
         );
       });
 
       // Define what happens in case of error
       XHR.addEventListener("error", function (event) {
         alert(
-          "Oh oh da lief was schief, das tut uns leid. Versuche es zu einem späteren Zeitpunkt nochmal oder kontaktiere uns über info@branddna.io."
+          "Oh oh da lief was schief, das tut uns leid. Versuche es zu einem späteren Zeitpunkt nochmal oder kontaktiere uns über info@codebrew.de"
         );
       });
 
