@@ -1,0 +1,19 @@
+version: "3.3"
+
+services:
+  mail2myself:
+    build: ./
+    volumes:
+      - ./.env:/usr/src/app/.env
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mail2myself.rule=Host(`mail2myself.org`, `www.mail2myself.org`)"
+      - "traefik.http.routers.mail2myself.entrypoints=https"
+      - "traefik.http.routers.mail2myself.tls=true"
+      - "traefik.http.routers.mail2myself.tls.certresolver=mytlschallenge"
+    networks:
+      - traefik_websecure
+networks:
+  traefik_websecure:
+    external: true
