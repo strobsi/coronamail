@@ -2803,3 +2803,23 @@ body.is-preload #header footer {
   font-size: 12px;
   line-height: normal;
 }
+
+.donatesection {
+  min-width: 40%;
+  line-height: 1em;
+  cursor: default;
+  list-style: none;
+  padding-left: 0;
+}
+
+.donatesection li {
+  min-width: 80%;
+  padding-left: 0;
+  margin-top: 0;
+}
+
+.donatesection a {
+  border: 0;
+  width: 100% !important;
+  height: 1em;
+}
