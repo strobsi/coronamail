@@ -127,6 +127,61 @@
     }
   }
 
+  function stripHtml(html) {
+    var tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+  }
+
+  function sendData() {
+    var cb = document.getElementById("dse_checkbox");
+    if (cb.checked) {
+      const XHR = new XMLHttpRequest();
+
+      // Bind the FormData object and the form element
+      const FD = new FormData(form);
+
+      for (var key in FD) {
+        FD[key] = stripHtml(FD[key]);
+      }
+
+      XHR.withCredentials = true;
+
+      // Define what happens on successful data submission
+      XHR.addEventListener("load", function (event) {
+        alert(
+          "Vielen Dank für Ihre Nachricht. Wir melden uns so schnell wie möglich."
+        );
+      });
+
+      // Define what happens in case of error
+      XHR.addEventListener("error", function (event) {
+        alert(
+          "Oh oh da lief was schief, das tut uns leid. Versuche es zu einem späteren Zeitpunkt nochmal oder kontaktiere uns über info@branddna.io."
+        );
+      });
+
+      // Set up our request
+      XHR.open("POST", "/send");
+
+      // The data sent is what the user provided in the form
+      XHR.send(FD);
+    } else {
+      alert(
+        "Die Datenschutzerklärung muss akzeptiert werden um das Formular senden zu dürfen."
+      );
+    }
+  }
+
+  // Access the form element...
+  let form = document.getElementById("mailForm");
+
+  // ...and take over its submit event.
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    sendData();
+  });
+
   $("#cookieButton").click(function () {
     var expire = new Date();
     expire = new Date(expire.getTime() + 7776000000);

@@ -2823,3 +2823,18 @@ body.is-preload #header footer {
   width: 100% !important;
   height: 1em;
 }
+
+input[type="checkbox"] {
+  -webkit-appearance: checkbox;
+  -left: 20px;
+  margin-top: 10px;
+}
+
+input[type="checkbox"] + label {
+  position: relative;
+}
+
+.checkbox {
+  margin-top: 0px;
+  font-weight: normal;
+}

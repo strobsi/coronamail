@@ -184,7 +184,7 @@
         <h2>Liebes Zukünftiges ich</h2>
         <p>Das musst du unbedingt machen...</p>
       </header>
-      <form method="post" action="#">
+      <form method="post" id="mailForm" action="#">
         <div class="row gtr-50">
           <!-- <div class="col-6 col-12-mobile">
             <input type="text" class="text" name="name" placeholder="Name" />
@@ -194,6 +194,24 @@
           </div>
           <div class="col-12">
             <textarea name="message" placeholder="Nachricht"></textarea>
+          </div>
+          <div class="col-8">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="dse_checkbox"
+              name="dse"
+            />
+            <label
+              style="float: right; margin-right: 20px;"
+              class="form-check-label"
+              for="dse"
+              >Mit dem Senden stimme ich der
+              <a href="" data-toggle="modal" data-target="#dsgvomodal"
+                >Datenschutzerklärung</a
+              >
+              zu</label
+            >
           </div>
           <div class="col-12">
             <ul class="actions">
