@@ -5,63 +5,35 @@ var multer = require("multer");
 var upload = multer();
 var striptags = require("striptags");
 const expressSanitizer = require("express-sanitizer");
-var nodemailer = require("nodemailer");
-var cors = require("cors");
-
+const redis = require("redis");
 require("dotenv").config();
+const client = redis.createClient({
+  port: 6379,
+  host: "redis",
+  password: process.env.REDIS_PASSWORD,
+});
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: "200kb", type: "application/json" }));
 app.use(upload.array());
 app.use(expressSanitizer());
-
-var transporter = nodemailer.createTransport({
-  host: "mail.codebrew.de",
-  port: 587,
-  secure: false, // upgrade later with STARTTLS
-  auth: {
-    user: "branddnamailer@codebrew.de",
-    pass: process.env.MAIL_PWD,
-  },
-});
-
 app.use(express.static("public"));
 
 app.post("/send", function (req, res) {
   console.log("received");
   var e = striptags(req.sanitize(req.body.email));
   var m = striptags(req.sanitize(req.body.message));
+  const now = Math.floor(new Date() / 1000);
+  var store = {
+    from: e,
+    msg: m,
+    date: now,
+  };
+  client.rpush("mailer", JSON.stringify(store));
+  res.send(JSON.stringify(store));
 });
 
-// function sendMail(n, e, m, res) {
-//   text =
-//     "Hallo brand.DNA Team<br>,hier ist eine neue Nachricht von der brand.DNA Website:";
-//   text += "<br>";
-//   text += "Name:" + n + "<br>";
-//   text += "Email: " + e + "<br>";
-//   text += "Nachricht: ";
-//   text += "<br>-------------------------<br>";
-//   text += m;
-//   text += "<br>-------------------------<br>";
-//   text += "Mit freundlichen Grüßen<br>Euer brand.DNA MailServer";
-
-//   var mailOptions = {
-//     from: "branddnamailer@codebrew.de",
-//     to: "info@codebrew.de",
-//     subject: "brand.DNA Contact form",
-//     html: text,
-//   };
-
-//   transporter.sendMail(mailOptions, function (error, info) {
-//     if (error) {
-//       console.log(error);
-//       res.send(400);
-//     } else {
-//       res.sendStatus(200);
-//     }
-//   });
-// }
-
 app.listen(process.env.PORT, function () {
-  console.log("Node mailer listening now");
+  console.log("Server running...");
 });

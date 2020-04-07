@@ -14,6 +14,22 @@ services:
       - "traefik.http.routers.mail2myself.tls.certresolver=mytlschallenge"
     networks:
       - traefik_websecure
+      - db
+    ports:
+      - 3000:3000
+  redis:
+    image: "bitnami/redis:5.0"
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=no
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    volumes:
+      - "./redis_data:/bitnami/redis/data"
+    networks:
+      - db
 networks:
   traefik_websecure:
     external: true
+  db:
+    external: false
