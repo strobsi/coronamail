@@ -1,0 +1,33 @@
+version: "3.3"
+
+services:
+  mail2myself:
+    build: ./
+    volumes:
+      - ./.env:/usr/src/app/.env
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mail2myself.rule=Host(`mail2myself.org`, `www.mail2myself.org`)"
+      - "traefik.http.routers.mail2myself.entrypoints=https"
+      - "traefik.http.routers.mail2myself.tls=true"
+      - "traefik.http.routers.mail2myself.tls.certresolver=mytlschallenge"
+    networks:
+      - traefik_websecure
+      - db
+  redis:
+    image: "bitnami/redis:5.0"
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=no
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    volumes:
+      - "../../mail2myself/redis_data:/bitnami/redis/data"
+    networks:
+      - db
+networks:
+  traefik_websecure:
+    external: true
+  db:
+    external: false
