@@ -15,8 +15,6 @@ services:
     networks:
       - traefik_websecure
       - db
-    ports:
-      - 3000:3000
   redis:
     image: "bitnami/redis:5.0"
     environment:
