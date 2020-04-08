@@ -168,8 +168,6 @@
       // The data sent is what the user provided in the form
       XHR.send(FD);
     } else {
-      $("#successModal").modal();
-
       alert(
         "Die Datenschutzerklärung muss akzeptiert werden um das Formular senden zu dürfen."
       );
