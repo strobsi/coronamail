@@ -44,12 +44,15 @@ app.post("/send", function (req, res) {
   console.log("received");
   var e = striptags(req.sanitize(req.body.email));
   var m = striptags(req.sanitize(req.body.message));
+  var mailDate = striptags(req.sanitize(req.body.mailDate));
   const now = Math.floor(new Date() / 1000);
   var store = {
     from: e,
     msg: m,
+    mailDate: mailDate,
     date: now,
   };
+  console.log(store);
   var encrypted = encrypt(JSON.stringify(store));
   client.rpush("mailer", JSON.stringify(encrypted));
   res.send(JSON.stringify(store));
