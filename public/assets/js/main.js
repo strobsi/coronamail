@@ -35,12 +35,12 @@
 
   // Scrolly.
   $(".scrolly-middle").scrolly({
-    speed: 1000,
+    speed: 100,
     anchor: "middle",
   });
 
   $(".scrolly").scrolly({
-    speed: 1000,
+    speed: 100,
     offset: function () {
       return breakpoints.active("<=mobile") ? 70 : 190;
     },
@@ -136,6 +136,9 @@
   function sendData() {
     var cb = document.getElementById("dse_checkbox");
     if (cb.checked) {
+      var loadingOverlay = document.getElementById("overlay");
+      loadingOverlay.classList.remove("hidden");
+
       const XHR = new XMLHttpRequest();
 
       // Bind the FormData object and the form element
@@ -149,13 +152,21 @@
 
       // Define what happens on successful data submission
       XHR.addEventListener("load", function (event) {
-        alert(
-          "Geschafft. Deine Nachricht ist gespeichert und wird dir zugesendet. Pass auf dich auf und bleib gesund!"
-        );
+        loadingOverlay.classList.add("hidden");
+        if (event.target.status == 200) {
+          alert(
+            "Geschafft. Deine Nachricht ist gespeichert und wird dir zugesendet. Pass auf dich auf und bleib gesund!"
+          );
+        } else {
+          alert(
+            "Oh oh da lief was schief, das tut uns leid. Versuche es zu einem späteren Zeitpunkt nochmal oder kontaktiere uns über info@codebrew.de"
+          );
+        }
       });
 
       // Define what happens in case of error
       XHR.addEventListener("error", function (event) {
+        loadingOverlay.classList.add("hidden");
         alert(
           "Oh oh da lief was schief, das tut uns leid. Versuche es zu einem späteren Zeitpunkt nochmal oder kontaktiere uns über info@codebrew.de"
         );
