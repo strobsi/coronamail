@@ -136,10 +136,10 @@
       const XHR = new XMLHttpRequest();
 
       // Bind the FormData object and the form element
-      const FD = new FormData(form);
+      var fd = new FormData(form);
 
-      for (var key in FD) {
-        FD[key] = stripHtml(FD[key]);
+      for (var key in fd) {
+        fd[key] = stripHtml(fd[key]);
       }
 
       var mailDate = Math.floor(Date.now() / 1000);
@@ -156,7 +156,7 @@
         mailDate = Math.floor(date / 1000);
       }
 
-      FD.set("mailDate", mailDate);
+      fd.set("mailDate", mailDate);
       XHR.withCredentials = true;
       // Define what happens on successful data submission
       XHR.addEventListener("load", function (event) {
@@ -178,7 +178,7 @@
       XHR.open("POST", "/send");
 
       // The data sent is what the user provided in the form
-      XHR.send(FD);
+      XHR.send(fd);
     } else {
       alert(
         "Die Datenschutzerklärung muss akzeptiert werden um das Formular senden zu dürfen."
