@@ -135,13 +135,6 @@
 
       const XHR = new XMLHttpRequest();
 
-      // Bind the FormData object and the form element
-      var fd = new FormData(form);
-
-      for (var key in fd) {
-        fd[key] = stripHtml(fd[key]);
-      }
-
       var mailDate = Math.floor(Date.now() / 1000);
       if ($("#btn_month_1").hasClass("selected")) {
         mailDate = mailDate + 30 * 24 * 60 * 60;
@@ -155,8 +148,14 @@
         var date = Date.parse($("#dateInput input").val());
         mailDate = Math.floor(date / 1000);
       }
+      // Bind the FormData object and the form element
+      var fd = new FormData(form);
+      fd.append("mailDate", mailDate);
 
-      fd.set("mailDate", mailDate);
+      for (var key in fd) {
+        fd[key] = stripHtml(fd[key]);
+      }
+
       XHR.withCredentials = true;
       // Define what happens on successful data submission
       XHR.addEventListener("load", function (event) {
