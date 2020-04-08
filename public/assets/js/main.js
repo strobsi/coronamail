@@ -156,7 +156,7 @@
         mailDate = Math.floor(date / 1000);
       }
 
-      FD.append("mailDate", mailDate);
+      FD.set("mailDate", mailDate);
       XHR.withCredentials = true;
       // Define what happens on successful data submission
       XHR.addEventListener("load", function (event) {
