@@ -52,7 +52,6 @@ app.post("/send", function (req, res) {
     mailDate: mailDate,
     date: now,
   };
-  console.log(store);
   var encrypted = encrypt(JSON.stringify(store));
   client.rpush("mailer", JSON.stringify(encrypted));
   res.send(JSON.stringify(store));

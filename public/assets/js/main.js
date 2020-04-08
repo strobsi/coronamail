@@ -221,6 +221,12 @@
     });
   });
 
+  $("#dateInput input").focusout(function () {
+    if ($("#dateInput input").val() === "") {
+      $("#btn_month_6").addClass("selected");
+    }
+  });
+
   $("#dateInput input").datepicker({
     startView: 1,
     maxViewMode: 3,
