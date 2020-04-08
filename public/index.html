@@ -56,9 +56,7 @@
         <p>...an dich.</p>
       </header>
       <footer>
-        <a href="#banner" class="button style2 scrolly-middle"
-          >Brief schreiben</a
-        >
+        <a href="#mail" class="button style2 scrolly-middle">Brief schreiben</a>
       </footer>
     </section>
 
@@ -205,7 +203,7 @@
     </article>
 
     <!-- Contact -->
-    <article class="container box style3">
+    <article id="mail" class="container box style3">
       <header>
         <h2>Liebes Zukünftiges ich</h2>
         <p>Das musst du unbedingt machen...</p>
@@ -1853,6 +1851,109 @@
         </div>
       </div>
     </div>
+
+    <!-- SUCCESSMODAL START-->
+    <div
+      class="modal fade"
+      id="successModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="successModalTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="successModalTitle">
+              Geschafft
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h5>Deine Nachricht wurde gespeichert.</h5>
+            <p>
+              Bleib gesund, wir wünschen dir weiterhin alles Gute!
+              <br />
+              Wenn du willst, kannst du unser Projekt
+              <a
+                href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=board%40codebrew.de&item_name=CodeBrew+GmbH&currency_code=EUR&source=url"
+                target="_blank"
+                class=""
+                >unterstützen</a
+              >
+              ,um die Unkosten aufzufangen. Deine Daten bleiben sicher und
+              verschlüsselt in der Datenbank. Wenn du die Löschung beantragst,
+              bitte wende dich an unseren Kontakt und wir werden
+              selbstverständlich alles löschen. <br />
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Schließen
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- SUCCESSMODAL END-->
+
+    <!-- ERRORMODAL START-->
+    <div
+      class="modal fade"
+      id="errorModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="errorModalTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="errorModalTitle">
+              Oh oh, da lief was schief
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>
+              Leider konnte deine Nachricht nicht gespeichert werden, das tut
+              uns leid.
+              <br />
+              Versuche es einfach zu einem späteren Zeitpunkt nochmal, oder
+              kontaktiere uns.
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Schließen
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ERRORMODAL END-->
 
     <div id="cookie_popup">
       <div class="row">

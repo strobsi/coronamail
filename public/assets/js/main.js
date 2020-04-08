@@ -30,23 +30,21 @@
   $window.on("load", function () {
     window.setTimeout(function () {
       $body.removeClass("is-preload");
-    }, 100);
+    }, 1000);
   });
 
   // Scrolly.
   $(".scrolly-middle").scrolly({
-    speed: 100,
+    speed: 1000,
     anchor: "middle",
   });
 
   $(".scrolly").scrolly({
-    speed: 100,
+    speed: 1000,
     offset: function () {
       return breakpoints.active("<=mobile") ? 70 : 190;
     },
   });
-
-  // Parallax background.
 
   // Disable parallax on IE/Edge (smooth scrolling is jerky), and on mobile platforms (= better performance).
   if (browser.name == "ie" || browser.name == "edge" || browser.mobile)
@@ -116,11 +114,9 @@
       // European time zones
       var visit = GetCookie("cookieCompliancyAccepted");
       if (visit == null) {
-        console.log("No cookie");
         $("#cookie_popup").fadeIn(400); // Show warning
       } else {
         // Already accepted
-        console.log("Already accepted cookies");
         gtag("config", "UA-162978011-1");
         $("#cookie_popup").hide(400);
       }
@@ -154,22 +150,16 @@
       XHR.addEventListener("load", function (event) {
         loadingOverlay.classList.add("hidden");
         if (event.target.status == 200) {
-          alert(
-            "Geschafft. Deine Nachricht ist gespeichert und wird dir zugesendet. Pass auf dich auf und bleib gesund!"
-          );
+          $("#successModal").modal();
         } else {
-          alert(
-            "Oh oh da lief was schief, das tut uns leid. Versuche es zu einem späteren Zeitpunkt nochmal oder kontaktiere uns über info@codebrew.de"
-          );
+          $("#errorModal").modal();
         }
       });
 
       // Define what happens in case of error
       XHR.addEventListener("error", function (event) {
         loadingOverlay.classList.add("hidden");
-        alert(
-          "Oh oh da lief was schief, das tut uns leid. Versuche es zu einem späteren Zeitpunkt nochmal oder kontaktiere uns über info@codebrew.de"
-        );
+        $("#errorModal").modal();
       });
 
       // Set up our request
@@ -199,7 +189,6 @@
     document.cookie =
       "cookieCompliancyAccepted=here; expires=" + expire + ";path=/";
     $("#cookie_popup").hide(400);
-    console.log("Starting Google Analytics");
     gtag("config", "UA-162978011-1");
   });
   testFirstCookie();
