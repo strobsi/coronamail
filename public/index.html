@@ -52,7 +52,10 @@
       integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
       crossorigin="anonymous"
     />
-
+    <link
+      rel="stylesheet"
+      href="assets/css/bootstrap-datepicker.standalone.min.css"
+    />
     <link rel="stylesheet" href="assets/css/main.css" />
     <noscript
       ><link rel="stylesheet" href="assets/css/noscript.css"
@@ -254,7 +257,28 @@
               placeholder="Nachricht"
             ></textarea>
           </div>
-          <div class="col-8">
+          <div class="col-2 col-12-mobile">
+            <label for="sendTimeGroup">
+              Senden in:
+            </label>
+          </div>
+          <div class="col-10 col-12-mobile">
+            <div id="sendTimeGroup" class="btn-group btn-group-justified">
+              <a href="#" id="btn_month_1" class="btn groupBtn">1 Monat</a>
+              <a href="#" id="btn_month_3" class="btn groupBtn">3 Monate</a>
+              <a href="#" id="btn_month_6" class="btn groupBtn">6 Monate</a>
+              <a href="#" id="btn_month_12" class="btn groupBtn selected"
+                >12 Monate</a
+              >
+            </div>
+          </div>
+          <div class="col-2 col-12-mobile">
+            <label>Genau am:</label>
+          </div>
+          <div id="dateInput" class="col-10 col-12-mobile">
+            <input type="text" class="form-control" />
+          </div>
+          <div class="col-8 col-12-mobile">
             <input
               type="checkbox"
               class="form-check-input"
@@ -272,7 +296,9 @@
               zu</label
             >
           </div>
-          <div class="col-12">
+          <div class="col-4 col-12-mobile"></div>
+
+          <div class="col-12 col-12-mobile">
             <ul class="actions">
               <li><input type="submit" value="Nachricht senden" /></li>
             </ul>
@@ -2226,6 +2252,8 @@
       crossorigin="anonymous"
     ></script>
     <script src="assets/js/util.js"></script>
+    <script src="assets/js/bootstrap-datepicker.min.js"></script>
+    <script src="assets/js/bootstrap-datepicker.de.min.js"></script>
     <script src="assets/js/main.js"></script>
   </body>
 </html>

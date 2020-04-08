@@ -2834,6 +2834,24 @@ input[type="checkbox"] + label {
   position: relative;
 }
 
+.groupBtn {
+  background: #35b88f;
+  border-radius: 3em;
+  color: white;
+}
+
+.selected {
+  background: #268063;
+}
+
+#sendTimeGroup {
+  margin-top: 5px;
+}
+
+#dateInput {
+  padding-top: 25px;
+}
+
 .checkbox {
   margin-top: 0px;
   font-weight: normal;

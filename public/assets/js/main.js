@@ -142,8 +142,22 @@
         FD[key] = stripHtml(FD[key]);
       }
 
-      XHR.withCredentials = true;
+      var mailDate = Math.floor(Date.now() / 1000);
+      if ($("#btn_month_1").hasClass("selected")) {
+        mailDate = mailDate + 30 * 24 * 60 * 60;
+      } else if ($("#btn_month_3").hasClass("selected")) {
+        mailDate = mailDate + 90 * 24 * 60 * 60;
+      } else if ($("#btn_month_6").hasClass("selected")) {
+        mailDate = mailDate + 180 * 24 * 60 * 60;
+      } else if ($("#btn_month_12").hasClass("selected")) {
+        mailDate = mailDate + 365 * 24 * 60 * 60;
+      } else {
+        var date = Date.parse($("#dateInput input").val());
+        mailDate = Math.floor(date / 1000);
+      }
 
+      FD["mailDate"] = mailDate;
+      XHR.withCredentials = true;
       // Define what happens on successful data submission
       XHR.addEventListener("load", function (event) {
         loadingOverlay.classList.add("hidden");
@@ -190,4 +204,27 @@
     gtag("config", "UA-162978011-1");
   });
   testFirstCookie();
+
+  $(".groupBtn").click(function (e) {
+    e.preventDefault();
+    if (!$(this).hasClass("selected")) {
+      $(".groupBtn").each(function (index) {
+        $(this).removeClass("selected");
+      });
+      $(this).addClass("selected");
+      $("#dateInput input").val("");
+    }
+  });
+
+  $("#dateInput input").focus(function (e) {
+    $(".groupBtn").each(function (index) {
+      $(this).removeClass("selected");
+    });
+  });
+
+  $("#dateInput input").datepicker({
+    startView: 1,
+    maxViewMode: 3,
+    language: "de",
+  });
 })(jQuery);
