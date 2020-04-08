@@ -150,7 +150,7 @@
       }
       // Bind the FormData object and the form element
       var fd = new FormData(form);
-      fd.append("mailDate", mailDate);
+      fd.append("mailDate", String(mailDate));
 
       for (var key in fd) {
         fd[key] = stripHtml(fd[key]);
