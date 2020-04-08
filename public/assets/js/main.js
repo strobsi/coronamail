@@ -159,7 +159,7 @@
       FD["mailDate"] = mailDate;
       XHR.withCredentials = true;
       // Define what happens on successful data submission
-      XHR.addEventListener("load", function (event) {
+      XHR.addEventListener("load", function (event) { ^
         loadingOverlay.classList.add("hidden");
         if (event.target.status == 200) {
           $("#successModal").modal();
