@@ -6,7 +6,7 @@ import  (
 	"github.com/go-redis/redis/v7"
 	"os"
 	log "github.com/sirupsen/logrus"
-	"encoding/json"
+	//"encoding/json"
 	"crypto/aes"
 	"crypto/cipher"
 	"encoding/hex"
@@ -30,49 +30,56 @@ func main() {
 	}
 
 	for i := 0; i < len(val); i++ {
-		var raw map[string]interface{}
-		in := []byte(val[i])
-		if err := json.Unmarshal(in, &raw); err != nil {
-			log.Error("Error unmarshaling data: ",err)
+		decrypted, err := Decrypt(val[i])
+		if err != nil {
+			log.Error("Error when decrypting: ",err)
 		}
-		encrypted := raw["e"];
-		iv_raw := raw["iv"];
-		if encrypted != nil {
-			log.Debug(encrypted);
-			str := fmt.Sprintf("%v", encrypted)
-			iv := fmt.Sprintf("%v",iv_raw)
-			decrypted, err := Decrypt(str,[]byte(iv))
-			if err != nil {
-				log.Error(err)
-			}
-			log.Debug(decrypted);
-		}
+		log.Debug(decrypted)
+	
+		// var raw map[string]interface{}
+		// in := []byte(val[i])
+		// if err := json.Unmarshal(in, &raw); err != nil {
+		// 	log.Error("Error unmarshaling data: ",err)
+		// }
+		// encrypted := raw["e"];
+		// iv_raw := raw["iv"];
+		// if encrypted != nil {
+		// 	log.Debug(encrypted);
+		// 	str := fmt.Sprintf("%v", encrypted)
+		// 	iv := fmt.Sprintf("%v",iv_raw)
+		// 	decrypted, err := Decrypt(str,[]byte(iv))
+		// 	if err != nil {
+		// 		log.Error(err)
+		// 	}
+		// 	log.Debug(decrypted);
+		// }
 	}
 	//send()
 }
 
- func Decrypt(encrypted string, iv []byte) (string, error) {
- 	key := []byte(os.Getenv("ENCRYPTION_KEY"))
- 	cipherText, _ := hex.DecodeString(encrypted)
+func Decrypt(encrypted string) (string, error) {
+	key := []byte(os.Getenv("ENCRYPTION_KEY"))
+	cipherText, _ := hex.DecodeString(encrypted)
 
- 	block, err := aes.NewCipher(key)
- 	if err != nil {
- 		panic(err)
- 	}
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		panic(err)
+	}
 
- 	if len(cipherText) < aes.BlockSize {
- 		panic("cipherText too short")
- 	}
- 	cipherText = cipherText[aes.BlockSize:]
- 	if len(cipherText)%aes.BlockSize != 0 {
- 		panic("cipherText is not a multiple of the block size")
- 	}
+	if len(cipherText) < aes.BlockSize {
+		panic("cipherText too short")
+	}
+	iv := cipherText[:aes.BlockSize]
+	cipherText = cipherText[aes.BlockSize:]
+	if len(cipherText)%aes.BlockSize != 0 {
+		panic("cipherText is not a multiple of the block size")
+	}
 
- 	mode := cipher.NewCBCDecrypter(block, iv)
- 	mode.CryptBlocks(cipherText, cipherText)
+	mode := cipher.NewCBCDecrypter(block, iv)
+	mode.CryptBlocks(cipherText, cipherText)
 
- 	cipherText, _ = pkcs7.Unpad(cipherText, aes.BlockSize)
- 	return fmt.Sprintf("%s", cipherText), nil
+	cipherText, _ = pkcs7.Unpad(cipherText, aes.BlockSize)
+	return fmt.Sprintf("%s", cipherText), nil
 }
 
 func send() {
