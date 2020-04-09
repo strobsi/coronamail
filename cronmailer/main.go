@@ -59,7 +59,8 @@ func main() {
 			client.LSet("mailer",int64(i),"SENT")
 			
 			// Delete now sent item
-			client.LRem("mailer",-1,"SENT")
+			status := client.LRem("mailer",-1,"SENT")
+			log.Debug(status)
 			
 		} else {
 			log.Debug(js)
