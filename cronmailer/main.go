@@ -51,6 +51,16 @@ func main() {
 		
 		if (mailDate < now) {
 			log.Info("Sending mail now");
+			err = send(js["from"].(string),js["msg"].(string))
+			if err != nil {
+				log.Error("Not able to send mail: ",err)
+			}
+			// TODO: Set list item and remove
+			client.LSet("mailer",int64(i),"SENT")
+			
+			// Delete now sent item
+			client.LRem("mailer",-1,"SENT")
+			
 		} else {
 			log.Debug(js)
 			log.Debug("Not ready for sending yet")
@@ -84,18 +94,18 @@ func Decrypt(encrypted string) (string, error) {
 	return fmt.Sprintf("%s", cipherText), nil
 }
 
-func send() {
+func send(receiver string, message string) error{
+
 	m := gomail.NewMessage()
 	m.SetHeader("From", "mail@mail2myself.org")
-	m.SetHeader("To", "simon.strobel@web.de")
-	//m.SetAddressHeader("Cc", "dan@example.com", "Dan")
-	m.SetHeader("Subject", "Hello!")
+	m.SetHeader("To", receiver)
+	m.SetHeader("Subject", "Deine Nachricht aus der Vergangenheit")
 	m.SetBody("text/html", "Hello <b>Bob</b> and <i>Cora</i>!")
-	
 	d := gomail.NewDialer("mail.codebrew.de", 587, "mail@mail2myself.org", os.Getenv("MAILER_PASSWORD"))
-	
-	// Send the email to Bob, Cora and Dan.
+
 	if err := d.DialAndSend(m); err != nil {
 		fmt.Println(err)
+		return err
 	}
+	return nil
 }
