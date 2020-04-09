@@ -15,6 +15,15 @@ services:
     networks:
       - traefik_websecure
       - db
+  cronmailer:
+    build: cronmailer/
+    restart: unless-stopped
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - MAILER_PASSWORD=${MAILER_PASSWORD}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+    networks:
+      - db
   redis:
     image: "bitnami/redis:5.0"
     environment:

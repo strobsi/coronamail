@@ -28,7 +28,7 @@ function encrypt(text) {
   let cipher = crypto.createCipheriv("aes-256-cbc", Buffer.from(key), iv);
   let encrypted = cipher.update(text);
   encrypted = Buffer.concat([encrypted, cipher.final()]);
-  return { iv: iv.toString("hex"), e: encrypted.toString("hex") };
+  return encrypted.toString("hex");
 }
 
 // function decrypt(text) {
@@ -53,7 +53,7 @@ app.post("/send", function (req, res) {
     date: now,
   };
   var encrypted = encrypt(JSON.stringify(store));
-  client.rpush("mailer", JSON.stringify(encrypted));
+  client.rpush("mailer", encrypted);
   res.send(JSON.stringify(store));
 });
 
