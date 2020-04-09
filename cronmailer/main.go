@@ -10,7 +10,7 @@ import  (
 	"crypto/aes"
 	"crypto/cipher"
 	"encoding/hex"
-
+	"strconv"
 	"github.com/mergermarket/go-pkcs7"
 	"time"
 )
@@ -43,7 +43,10 @@ func main() {
 		}
 
 		now := int32(time.Now().Unix())
-		if (js["mailDate"].(int32) < now) {
+		i64, err := strconv.ParseInt(js["mailDate"].(string), 10, 32)
+		mailDate := int32(i64)
+		
+		if (mailDate < now) {
 			log.Info("Sending mail now");
 		} 
 	}
