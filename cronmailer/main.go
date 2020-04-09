@@ -6,11 +6,13 @@ import  (
 	"github.com/go-redis/redis/v7"
 	"os"
 	log "github.com/sirupsen/logrus"
-	//"encoding/json"
+	"encoding/json"
 	"crypto/aes"
 	"crypto/cipher"
 	"encoding/hex"
+
 	"github.com/mergermarket/go-pkcs7"
+	"time"
 )
 
 func main() {
@@ -34,25 +36,16 @@ func main() {
 		if err != nil {
 			log.Error("Error when decrypting: ",err)
 		}
-		log.Debug(decrypted)
-	
-		// var raw map[string]interface{}
-		// in := []byte(val[i])
-		// if err := json.Unmarshal(in, &raw); err != nil {
-		// 	log.Error("Error unmarshaling data: ",err)
-		// }
-		// encrypted := raw["e"];
-		// iv_raw := raw["iv"];
-		// if encrypted != nil {
-		// 	log.Debug(encrypted);
-		// 	str := fmt.Sprintf("%v", encrypted)
-		// 	iv := fmt.Sprintf("%v",iv_raw)
-		// 	decrypted, err := Decrypt(str,[]byte(iv))
-		// 	if err != nil {
-		// 		log.Error(err)
-		// 	}
-		// 	log.Debug(decrypted);
-		// }
+		var js map[string]interface{}
+		in := []byte(decrypted)
+		if err := json.Unmarshal(in, &js); err != nil {
+			log.Error("Error unmarshaling data: ",err)
+		}
+
+		now := int32(time.Now().Unix())
+		if (js["mailDate"].(int32) < now) {
+			log.Info("Sending mail now");
+		} 
 	}
 	//send()
 }
