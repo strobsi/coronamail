@@ -30,6 +30,7 @@ func main() {
 	if err != nil {
 		log.Error("Error getting data: ",err)
 	}
+	log.Debug("Length of mailer: ",len(val))
 
 	for i := 0; i < len(val); i++ {
 		decrypted, err := Decrypt(val[i])
@@ -57,11 +58,9 @@ func main() {
 			}
 			// TODO: Set list item and remove
 			client.LSet("mailer",int64(i),"SENT")
-			
 			// Delete now sent item
-			status := client.LRem("mailer",-1,"SENT")
-			log.Debug(status)
-			
+			client.LRem("mailer",-1,"SENT")
+		
 		} else {
 			log.Debug(js)
 			log.Debug("Not ready for sending yet")
