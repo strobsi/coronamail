@@ -17,7 +17,7 @@ services:
       - db
   cronmailer:
     build: cronmailer/
-    restart: unless-stopped
+    restart: on-failure
     environment:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
       - MAILER_PASSWORD=${MAILER_PASSWORD}
