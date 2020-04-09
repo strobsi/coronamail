@@ -44,11 +44,17 @@ func main() {
 
 		now := int32(time.Now().Unix())
 		i64, err := strconv.ParseInt(js["mailDate"].(string), 10, 32)
+		if err != nil {
+			log.Error("Error getting mailDate",err)
+		}
 		mailDate := int32(i64)
 		
 		if (mailDate < now) {
 			log.Info("Sending mail now");
-		} 
+		} else {
+			log.Debug(js)
+			log.Debug("Not ready for sending yet")
+		}
 	}
 	//send()
 }
