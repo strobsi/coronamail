@@ -33,6 +33,7 @@ func main() {
 	log.Debug("Length of mailer: ",len(val))
 
 	for i := 0; i < len(val); i++ {
+		log.Debug("Checking item: ",val[i])
 		decrypted, err := Decrypt(val[i])
 		if err != nil {
 			log.Error("Error when decrypting: ",err)
