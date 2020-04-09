@@ -9,7 +9,6 @@ const expressSanitizer = require("express-sanitizer");
 const redis = require("redis");
 const crypto = require("crypto");
 const key = process.env.ENCRYPTION_KEY;
-const iv = crypto.randomBytes(16);
 
 const client = redis.createClient({
   port: 6379,
@@ -24,13 +23,19 @@ app.use(upload.array());
 app.use(expressSanitizer());
 app.use(express.static("public"));
 
-function encrypt(text) {
-  let cipher = crypto.createCipheriv("aes-256-cbc", Buffer.from(key), iv);
-  let encrypted = cipher.update(text);
-  encrypted = Buffer.concat([encrypted, cipher.final()]);
-  return encrypted.toString("hex");
+function encrypt(plainText) {
+  const iv = crypto.randomBytes(16);
+  const cipher = crypto.createCipheriv("aes-256-cbc", key, iv);
+  let cipherText;
+  try {
+    cipherText = cipher.update(plainText, "utf8", "hex");
+    cipherText += cipher.final("hex");
+    cipherText = iv.toString("hex") + cipherText;
+  } catch (e) {
+    cipherText = null;
+  }
+  return cipherText;
 }
-
 // function decrypt(text) {
 //   let iv = Buffer.from(text.iv, "hex");
 //   let encryptedText = Buffer.from(text.e, "hex");
