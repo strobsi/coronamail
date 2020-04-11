@@ -29,6 +29,7 @@ func main() {
 	log.Debug("Getting mails");
 	val, err := client.LRange("mailer",0,-1).Result()
 	if err != nil {
+		os.Exit(1)
 		log.Error("Error getting data: ",err)
 	}
 	log.Debug("Length of mailer: ",len(val))
