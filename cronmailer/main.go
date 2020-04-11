@@ -13,6 +13,8 @@ import  (
 	"strconv"
 	"github.com/mergermarket/go-pkcs7"
 	"time"
+	"io/ioutil"
+	"time"
 )
 
 func main() {
@@ -61,7 +63,7 @@ func main() {
 			client.LSet("mailer",int64(i),"SENT")
 			// Delete now sent item
 			client.LRem("mailer",-1,"SENT")
-		
+			time.Sleep(60 * 60 * time.Second)
 		} else {
 			log.Debug(js)
 			log.Debug("Not ready for sending yet")
@@ -101,7 +103,20 @@ func send(receiver string, message string) error{
 	m.SetHeader("From", "mail@mail2myself.org")
 	m.SetHeader("To", receiver)
 	m.SetHeader("Subject", "Deine Nachricht aus der Vergangenheit")
-	m.SetBody("text/html", "Hello <b>Bob</b> and <i>Cora</i>!")
+
+	content, err := ioutil.ReadFile("./mail_start.html");
+    if err != nil {
+        log.Error(err)
+    }
+	mailStart := string(content)
+	content, err = ioutil.ReadFile("./mail_end.html");
+    if err != nil {
+        log.Error(err)
+    }
+	mailEnd := string(content)
+	mailContent := mailStart + message + mailEnd
+
+	m.SetBody("text/html",mailContent)
 	d := gomail.NewDialer("mail.codebrew.de", 587, "mail@mail2myself.org", os.Getenv("MAILER_PASSWORD"))
 
 	if err := d.DialAndSend(m); err != nil {
