@@ -12,7 +12,6 @@ import  (
 	"encoding/hex"
 	"strconv"
 	"github.com/mergermarket/go-pkcs7"
-	"time"
 	"io/ioutil"
 	"time"
 )
