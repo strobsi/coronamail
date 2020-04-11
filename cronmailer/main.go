@@ -62,12 +62,11 @@ func main() {
 			client.LSet("mailer",int64(i),"SENT")
 			// Delete now sent item
 			client.LRem("mailer",-1,"SENT")
-			time.Sleep(60 * 60 * time.Second)
 		} else {
 			log.Debug(js)
-			log.Debug("Not ready for sending yet")
 		}
 	}
+	time.Sleep(60 * 60 * time.Second)
 	//send()
 }
 
