@@ -145,7 +145,13 @@
       } else if ($("#btn_month_12").hasClass("selected")) {
         mailDate = mailDate + 365 * 24 * 60 * 60;
       } else {
-        var date = Date.parse($("#dateInput input").val());
+        var original = $("#dateInput input").val();
+        var parts = original.split(".");
+        var date = new Date(
+          parseInt(parts[2], 10),
+          parseInt(parts[1], 10) - 1,
+          parseInt(parts[0], 10)
+        );
         mailDate = Math.floor(date / 1000);
       }
       // Bind the FormData object and the form element
